@@ -4,7 +4,7 @@
     <script src="script.js"></script>
 </head>
 
-<body>
+<body onload="init();">
 
     <div id="intro"> Hello!
         <br/> Avant tout, sélectionne la taille de ta grille:
@@ -22,9 +22,12 @@
 
         </canvas>
 
-        <svg id="grille2" width="500" height="500">
-
-        </svg>
+       
+    </div>
+    <div>
+        Entrez ici votre ligne l'instruction pour attrapper la balle verte:<br/>
+        <input type="text" id="mouvement" size="50"><br/>
+        <button onclick="Avance()">Valider!</button><br/>
     </div>
 </body>
 
