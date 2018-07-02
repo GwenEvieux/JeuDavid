@@ -6,10 +6,28 @@ let joueur
 let fin
 let magrille
 let ctx
-function Avance(){
+
+
+function Avance() {
 	let algo = document.getElementById("mouvement").value;
-	
 	algo = algo.split(",");
+	let mouvement = new Array();
+	for (i in algo) {
+		mouvement[i] = { sens: "", pas: "" }
+		mouvement[i].sens = algo[i].slice(0, 1);
+		mouvement[i].pas = algo[i].slice(1);
+	}
+	console.log(mouvement);
+
+	//requestAnimationFrame(mainLoop);
+
+
+}
+
+function mainLoop(mouvement){
+	ctx.clearRect(0, 0, w, h);
+	drawFilledCircle(pionFin);
+	joueur.x += 5
 	
 }
 function init() {
@@ -69,8 +87,8 @@ function grille(taille) {
 }
 
 function placeElements() {
-	let monx = (joueur.x * quadrillage) - (quadrillage / 2);
-	let mony = (joueur.y * quadrillage) - (quadrillage / 2);
+	let monx = (joueur.x * quadrillage) + (quadrillage / 2);
+	let mony = (joueur.y * quadrillage) + (quadrillage / 2);
 	let radius1 = quadrillage * 0.45;
 	var pionJoueur = {
 		x: monx,
@@ -81,8 +99,9 @@ function placeElements() {
 		speedY: 1
 	}
 
-	let monx2 = (fin.x * quadrillage) - (quadrillage / 2);
-	let mony2 = (fin.y * quadrillage) - (quadrillage / 2);
+	let monx2 = (fin.x * quadrillage) + (quadrillage / 2);
+	let mony2 = (fin.y * quadrillage) + (quadrillage / 2);
+	
 	let radius2 = quadrillage * 0.3;
 	var pionFin = {
 		x: monx2,
