@@ -10,7 +10,7 @@ let mouvement = new Array();
 let randX
 let randY
 
-function bouge(direction,pas) {
+function bouge(direction, pas) {
 	direction = (direction.toString().toLowerCase())
 	console.log(direction);
 	//on change les coordonnées du pion
@@ -20,15 +20,13 @@ function bouge(direction,pas) {
 	joueur.y >= taille ? joueur.y = taille - 1 : false;
 	joueur.x < 0 ? joueur.x = 0 : false;
 	joueur.x >= taille ? joueur.x = taille - 1 : false;
-	if(pas >0){
-		pas--;
-		requestAnimationFrame(function(d) {
-			bouge(direction,pas);
+	grille();
+	pas--;
+	if (pas > 0) {	
+		requestAnimationFrame(function (d) {
+			bouge(direction, pas);
 		});
 	}
-
-	//on redessine
-	grille();
 }
 function sequence() {
 	let seq = document.getElementById("commandes").value;
@@ -38,17 +36,12 @@ function sequence() {
 	//c'est cette partie qu'il faudrait animer
 	for (i in seq) {
 		var r = /\d+/;
-		var k= /[a-zA-Z]/;
+		var k = /[a-zA-Z]/;
 		let direct = seq[i].match(k);
 		let pas = parseInt(seq[i].match(r));
-		//for(let j=0;j<pas;j++){
-			//bouge(direct);
-			requestAnimationFrame(function(d) {
-				bouge(direct,pas);
-			});
-
-		//}
-		
+		requestAnimationFrame(function (d) {
+			bouge(direct, pas);
+		});
 	}
 }
 
