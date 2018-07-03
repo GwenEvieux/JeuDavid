@@ -25,15 +25,14 @@
 
     </div>
     <div>
-        Entrez ici votre ligne l'instruction pour attrapper la balle verte:
+      
+        <button onclick="bouge('haut')">Haut</button>
         <br/>
-        <i> Pour mémoire : G7 pour "Avancer de 7 cases vers la gauche"
-            <br> B5,D3 pour "Avancer de 5 cases vers le Bas, puis 3 cases vers la Droite"
-            <br>
-        </i>
-        <input type="text" id="mouvement" size="50">
+        <button onclick="bouge('bas')">Bas</button>
         <br/>
-        <button onclick="Avance()">Valider!</button>
+        <button onclick="bouge('gauche')">Gauche</button>
+        <br/>
+        <button onclick="bouge('droite')">Droite</button>
         <br/>
     </div>
 </body>

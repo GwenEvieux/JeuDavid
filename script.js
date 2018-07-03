@@ -1,48 +1,38 @@
-
-
-
-let quadrillage
-let joueur
-let fin
+let quadrillage =30;
+let joueur= { x: 1, y: 1 };
+let fin= { x: 1, y: 1 };
 let magrille
 let ctx
-
+let pionFin
+let pionJoueur
+let taille = 10;
+let mouvement = new Array();
 
 function Avance() {
-	let algo = document.getElementById("mouvement").value;
-	algo = algo.split(",");
-	let mouvement = new Array();
-	for (i in algo) {
-		mouvement[i] = { sens: "", pas: "" }
-		mouvement[i].sens = algo[i].slice(0, 1);
-		mouvement[i].pas = algo[i].slice(1);
-	}
-	console.log(mouvement);
-
-	//requestAnimationFrame(mainLoop);
-
-
-}
-
-function mainLoop(mouvement){
-	ctx.clearRect(0, 0, w, h);
+	ctx.clearRect(0, 0, 500, 500);
+	console.log(taille)
+	grille(taille);
+	placeElements();
+	drawFilledCircle(pionJoueur);
 	drawFilledCircle(pionFin);
-	joueur.x += 5
+}
+
+function bouge(direction){
+	direction=="haut"?joueur.y--:direction=="bas"?joueur.y++:direction=="gauche"?joueur.x--:direction=="droite"?joueur.x++:false;
 	
+	grille()
 }
+
 function init() {
-	//taille des cases
-	quadrillage = 30;
-	//on initialise le joueur
-	joueur = { x: 0, y: 0 };
-	//on initialise la case de sortie
-	fin = { x: 1, y: 1 };
 	magrille = document.getElementById("grille")
-
+	grille();
+	dessineJoueur();
 }
 
-function grille(taille) {
-	//on dessine la grille
+function grille(newtaille) {
+	if(newtaille>0){
+		taille = newtaille;
+	}
 	magrille.setAttribute("height", quadrillage * taille)
 	magrille.setAttribute("width", quadrillage * taille)
 	if (magrille.getContext) {
@@ -53,7 +43,6 @@ function grille(taille) {
 			ctx.moveTo(start, 0);
 			ctx.lineTo(start, quadrillage * taille);
 			ctx.stroke();
-
 		}
 		for (var i = 0; i <= taille; i++) {
 			var start = i * quadrillage;
@@ -61,58 +50,19 @@ function grille(taille) {
 			ctx.moveTo(0, start);
 			ctx.lineTo(quadrillage * taille, start);
 			ctx.stroke();
-
 		}
 	}
-	//on cache l'intro
-	document.getElementById("intro").style.visibility = "hidden";
-	//On place le joueur sur une position aléatoide de la grille
-	let randX = Math.floor(Math.random() * taille);
-	let randY = Math.floor(Math.random() * taille);
-	joueur.x = randX;
-	joueur.y = randY;
-	let randX2;
-	let randY2;
-	do {
-
-		//on s'assure que la fin n'est pas SUR le joeur au début.
-		randX2 = Math.floor(Math.random() * taille);
-		randY2 = Math.floor(Math.random() * taille);
-		console.log(randX2);
-		console.log(randY2)
-	} while (randX == randX2 || randY == randY2)
-	fin.x = randX2;
-	fin.y = randY2;
-	placeElements();
+	dessineJoueur();
 }
 
-function placeElements() {
-	let monx = (joueur.x * quadrillage) + (quadrillage / 2);
-	let mony = (joueur.y * quadrillage) + (quadrillage / 2);
-	let radius1 = quadrillage * 0.45;
-	var pionJoueur = {
-		x: monx,
-		y: mony,
-		radius: radius1,
-		color: 'black',
-		speedX: 2,
-		speedY: 1
+function dessineJoueur(){
+	pionJoueur={
+		x: joueur.x*quadrillage,
+		y: joueur.y*quadrillage,
+		radius: quadrillage*0.35,
+		color: 'Black',
 	}
-
-	let monx2 = (fin.x * quadrillage) + (quadrillage / 2);
-	let mony2 = (fin.y * quadrillage) + (quadrillage / 2);
-	
-	let radius2 = quadrillage * 0.3;
-	var pionFin = {
-		x: monx2,
-		y: mony2,
-		radius: radius2,
-		color: 'green',
-		speedX: 2,
-		speedY: 1
-	}
-	drawFilledCircle(pionJoueur);
-	drawFilledCircle(pionFin);
+	drawFilledCircle(pionJoueur)
 }
 
 function drawFilledCircle(c) {
