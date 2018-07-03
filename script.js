@@ -1,37 +1,43 @@
-let quadrillage =30;
-let joueur= { x: 1, y: 1 };
-let fin= { x: 1, y: 1 };
+let quadrillage = 30;
+let joueur = { x: 1, y: 1 };
+let fin = { x: 1, y: 1 };
 let magrille
 let ctx
 let pionFin
 let pionJoueur
 let taille = 10;
 let mouvement = new Array();
+let randX
+let randY
 
-function Avance() {
-	ctx.clearRect(0, 0, 500, 500);
-	console.log(taille)
-	grille(taille);
-	placeElements();
-	drawFilledCircle(pionJoueur);
-	drawFilledCircle(pionFin);
-}
-
-function bouge(direction){
-	direction=="haut"?joueur.y--:direction=="bas"?joueur.y++:direction=="gauche"?joueur.x--:direction=="droite"?joueur.x++:false;
-	
-	grille()
+function bouge(direction) {
+	//on change les coordonnées du pion
+	direction == "haut" ? joueur.y-- : direction == "bas" ? joueur.y++ : direction == "gauche" ? joueur.x-- : direction == "droite" ? joueur.x++ : false;
+	//On s'assure que le joeur ne puisse pas sortir de la grille
+	joueur.y<0?joueur.y=0:false;
+	joueur.y>=taille?joueur.y=taille-1:false;
+	joueur.x<0?joueur.x=0:false;
+	joueur.x>=taille?joueur.x=taille-1:false;
+	//on redessine
+	grille();
 }
 
 function init() {
 	magrille = document.getElementById("grille")
 	grille();
+	//On place la sortie aléatoirement sur la grille
+	randX = Math.floor(Math.random() * taille);
+	randY = Math.floor(Math.random() * taille);
+	dessineFin(randX, randY);
 	dessineJoueur();
 }
 
 function grille(newtaille) {
-	if(newtaille>0){
+	//Si on choisi une autre taille de grille, on réinitialise
+	if (newtaille > 0) {
 		taille = newtaille;
+		randX = Math.floor(Math.random() * taille);
+		randY = Math.floor(Math.random() * taille);
 	}
 	magrille.setAttribute("height", quadrillage * taille)
 	magrille.setAttribute("width", quadrillage * taille)
@@ -52,17 +58,30 @@ function grille(newtaille) {
 			ctx.stroke();
 		}
 	}
+//On dessine les deux pions
+	dessineFin(randX, randY);
 	dessineJoueur();
 }
 
-function dessineJoueur(){
-	pionJoueur={
-		x: joueur.x*quadrillage,
-		y: joueur.y*quadrillage,
-		radius: quadrillage*0.35,
+function dessineJoueur() {
+	pionJoueur = {
+		x: joueur.x * quadrillage + quadrillage / 2,
+		y: joueur.y * quadrillage + quadrillage / 2,
+		radius: quadrillage * 0.35,
 		color: 'Black',
 	}
 	drawFilledCircle(pionJoueur)
+}
+
+
+function dessineFin(mrandX, mrandY) {
+	pionFin = {
+		x: mrandX * quadrillage + quadrillage / 2,
+		y: mrandY * quadrillage + quadrillage / 2,
+		radius: quadrillage * 0.35,
+		color: 'red',
+	}
+	drawFilledCircle(pionFin)
 }
 
 function drawFilledCircle(c) {
