@@ -11,15 +11,34 @@ let randX
 let randY
 
 function bouge(direction) {
+	direction = (direction.toString().toLowerCase())
+	console.log(direction);
 	//on change les coordonnées du pion
-	direction == "haut" ? joueur.y-- : direction == "bas" ? joueur.y++ : direction == "gauche" ? joueur.x-- : direction == "droite" ? joueur.x++ : false;
+	direction == "h" ? joueur.y-- : direction == "b" ? joueur.y++ : direction == "g" ? joueur.x-- : direction == "d" ? joueur.x++ : false;
 	//On s'assure que le joeur ne puisse pas sortir de la grille
-	joueur.y<0?joueur.y=0:false;
-	joueur.y>=taille?joueur.y=taille-1:false;
-	joueur.x<0?joueur.x=0:false;
-	joueur.x>=taille?joueur.x=taille-1:false;
+	joueur.y < 0 ? joueur.y = 0 : false;
+	joueur.y >= taille ? joueur.y = taille - 1 : false;
+	joueur.x < 0 ? joueur.x = 0 : false;
+	joueur.x >= taille ? joueur.x = taille - 1 : false;
 	//on redessine
 	grille();
+}
+function sequence() {
+	let seq = document.getElementById("commandes").value;
+	//on commence par décomposer caque mouvement, on obtiens un pas et une direction
+	seq = seq.split(",");
+	console.log(seq);
+	for (i in seq) {
+		var r = /\d+/;
+		var k= /[a-zA-Z]/;
+		let direct = seq[i].match(k);
+		let pas = parseInt(seq[i].match(r));
+		for(let j=0;j<pas;j++){
+			bouge(direct);
+			
+		}
+		console.log(pas);
+	}
 }
 
 function init() {
@@ -38,6 +57,7 @@ function grille(newtaille) {
 		taille = newtaille;
 		randX = Math.floor(Math.random() * taille);
 		randY = Math.floor(Math.random() * taille);
+		joueur = { x: 1, y: 1 };
 	}
 	magrille.setAttribute("height", quadrillage * taille)
 	magrille.setAttribute("width", quadrillage * taille)
@@ -58,7 +78,7 @@ function grille(newtaille) {
 			ctx.stroke();
 		}
 	}
-//On dessine les deux pions
+	//On dessine les deux pions
 	dessineFin(randX, randY);
 	dessineJoueur();
 }
